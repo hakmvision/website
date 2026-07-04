@@ -89,11 +89,24 @@
   .nav-links a:hover{color:var(--ink)}
   .nav-links a:hover::after{width:100%}
   .nav-cta{
-    font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--black);background:linear-gradient(180deg,var(--gold-bright),var(--gold));
-    padding:11px 20px;border-radius:1px;transition:transform .3s var(--ease), box-shadow .35s var(--ease);
+    font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold-bright);background:transparent;
+    border:1px solid rgba(205,155,68,.55);
+    padding:10px 24px;border-radius:999px;
+    position:relative;overflow:hidden;
+    transition:color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .3s var(--ease);
   }
-  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(205,155,68,.3)}
+  .nav-cta::before{
+    content:"";position:absolute;inset:0;border-radius:999px;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+    opacity:0;transition:opacity .35s var(--ease);z-index:-1;
+  }
+  .nav-cta:hover{
+    color:var(--black);border-color:var(--gold-bright);
+    transform:translateY(-1px);
+    box-shadow:0 6px 22px rgba(205,155,68,.35), 0 0 0 1px rgba(233,206,134,.25) inset;
+  }
+  .nav-cta:hover::before{opacity:1}
   .menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--ink);border-radius:1px;padding:10px 13px;font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 
   .hero{position:relative;padding:clamp(64px,11vh,120px) 0 clamp(56px,8vh,96px);overflow:hidden}
@@ -214,6 +227,28 @@
   .modal-close{float:right;background:none;border:1px solid var(--line);color:var(--ink);border-radius:1px;width:36px;height:36px;cursor:pointer;font-size:17px;line-height:1;margin:-6px -6px 0 0;transition:border-color .3s var(--ease),color .3s var(--ease)}
   .modal-close:hover{border-color:var(--gold);color:var(--gold)}
 
+  .c-form{margin-top:18px;display:flex;flex-direction:column;gap:16px}
+  .cf-field label{
+    display:block;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+  }
+  .cf-field input,.cf-field textarea{
+    width:100%;box-sizing:border-box;
+    background:var(--black-2);color:var(--ink);
+    border:1px solid var(--line);border-radius:4px;
+    padding:13px 14px;font-family:var(--sans);font-weight:300;font-size:14.5px;
+    letter-spacing:.02em;line-height:1.5;resize:vertical;
+    transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .cf-field input::placeholder,.cf-field textarea::placeholder{color:var(--ink-3)}
+  .cf-field input:focus,.cf-field textarea:focus{
+    outline:none;border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(205,155,68,.15);
+  }
+  .cf-status{margin:4px 0 0;font-family:var(--sans);font-size:13px;letter-spacing:.03em;min-height:1em}
+  .cf-status.ok{color:#8fce9a}
+  .cf-status.err{color:#d98a8a}
+
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
   .reveal.in{opacity:1;transform:none}
   .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
@@ -310,7 +345,7 @@
         <div class="founder">
           <div class="lbl"><span class="dia"></span>Founder</div>
           <div class="name">Mohammadi Pasha K.</div>
-          <div class="role">Founder &amp; Chief Executive Officer</div>
+          <div class="role">Founder &amp; CEO</div>
         </div>
       </div>
       <div class="about-body reveal d1">
@@ -353,8 +388,8 @@
     <div class="pillars">
       <div class="pillar lead reveal">
         <div class="p-i">/ 01</div>
-        <h3>Own capital only</h3>
-        <p>We trade and invest exclusively with the partnership's own funds. We do not manage client money or provide advisory services — the firm's interests and its capital are one and the same.</p>
+        <h3>Discipline over emotion</h3>
+        <p>Every trade follows a defined process — entries, exits, and position sizes are decided before the market opens, not in the heat of the moment. Rules, not reactions, drive our execution.</p>
       </div>
       <div class="pillar reveal d1">
         <div class="p-i">/ 02</div>
@@ -391,9 +426,24 @@
         </div>
       </div>
       <div class="contact-card reveal d1">
-        <h3>Enquiries</h3>
+        <h3>Send a message</h3>
         <p>Tell us who you are and how we can help, and we'll get back to you.</p>
-        <a href="mailto:hakmvisionllp@gmail.com?subject=Enquiry%20%E2%80%94%20HAKM%20VISION%20LLP" class="btn btn-gold" style="width:100%;justify-content:center;">Email the partnership <span class="arw">→</span></a>
+        <form id="contactForm" class="c-form" novalidate>
+          <div class="cf-field">
+            <label for="cf-email">Your Email</label>
+            <input type="email" id="cf-email" name="email" required placeholder="you@example.com" />
+          </div>
+          <div class="cf-field">
+            <label for="cf-subject">Subject</label>
+            <input type="text" id="cf-subject" name="_subject" required placeholder="Business enquiry" />
+          </div>
+          <div class="cf-field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="Hello HAKM Vision, I'd like to connect regarding..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold" id="cfBtn" style="width:100%;justify-content:center;">Send message <span class="arw">→</span></button>
+          <p class="cf-status" id="cfStatus" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </div>
@@ -421,7 +471,7 @@
 
     <div class="foot-legal">
       <span>© <span id="yr"></span> HAKM VISION LLP · Constituted under the Limited Liability Partnership Act, 2008</span>
-      <span>LLPIN: [update once issued]</span>
+      <span>LLPIN: ACZ-2707</span>
     </div>
   </div>
 </footer>
@@ -505,6 +555,38 @@
     var c=ov.querySelector('[data-close]'); if(c)c.addEventListener('click', function(){ closeModal(ov); });
   });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ document.querySelectorAll('.overlay.open').forEach(function(ov){ closeModal(ov); }); } });
+
+  var cForm = document.getElementById('contactForm');
+  if(cForm){
+    cForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = document.getElementById('cfBtn');
+      var status = document.getElementById('cfStatus');
+      if(!cForm.checkValidity()){ cForm.reportValidity(); return; }
+      btn.disabled = true; btn.style.opacity = '.6';
+      status.className = 'cf-status'; status.textContent = 'Sending…';
+      fetch('https://formsubmit.co/ajax/hakmvisionllp@gmail.com', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          email: document.getElementById('cf-email').value,
+          _subject: document.getElementById('cf-subject').value,
+          message: document.getElementById('cf-message').value,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      }).then(function(r){ return r.json(); }).then(function(){
+        status.className = 'cf-status ok';
+        status.textContent = 'Thank you — your message has been sent. We\'ll get back to you shortly.';
+        cForm.reset();
+        btn.disabled = false; btn.style.opacity = '1';
+      }).catch(function(){
+        status.className = 'cf-status err';
+        status.textContent = 'Something went wrong. Please email us directly at hakmvisionllp@gmail.com.';
+        btn.disabled = false; btn.style.opacity = '1';
+      });
+    });
+  }
 </script>
 </body>
 </html>
